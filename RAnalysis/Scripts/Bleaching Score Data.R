@@ -27,10 +27,6 @@ Data <- read.csv("Colormetric_Data_2019.csv", header=T, sep=",", na.string="NA")
 #Tank.Info <- read.csv("Data/Tank_to_Treatment.csv", header=T, sep=",", na.string="NA") #read in data file 
 
 
-#Data <- merge(Data, Sample.Info, by="PLUG.ID")
-Data <-na.omit(Data)
-Data <- Data[Data$Timepoint != "Time6", ]
-
 Data$Red.Norm.Coral <- Data$Red.Coral/Data$Red.Standard #normalize to color standard
 Data$Green.Norm.Coral <- Data$Green.Coral/Data$Green.Standard #normalize to color standard
 Data$Blue.Norm.Coral <- Data$Blue.Coral/Data$Blue.Standard #normalize to color standard
@@ -99,8 +95,23 @@ boxplot(residuals(mod1)) #look at normality of data
 plot(mod1$fitted.values, mod1$residuals)
 summary(mod1)
 
-marginal = lsmeans(mod1, ~ Timepoint*Treatment*Colormorph)
+> summary(mod1)
+                                Df Sum Sq Mean Sq F value   Pr(>F)    
+Timepoint                        3 0.7852  0.2617  33.907  < 2e-16 ***
+Treatment                        3 0.9665  0.3222  41.733  < 2e-16 ***
+Colormorph                       1 0.3342  0.3342  43.290 5.40e-10 ***
+Timepoint:Treatment              9 0.5012  0.0557   7.214 7.17e-09 ***
+Timepoint:Colormorph             3 0.0881  0.0294   3.802   0.0113 *  
+Treatment:Colormorph             3 0.1820  0.0607   7.860 6.01e-05 ***
+Timepoint:Treatment:Colormorph   9 0.1233  0.0137   1.774   0.0763 .  
+Residuals                      173 1.3355  0.0077                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
+TukeyHSD(mod1)
+
+
+marginal = lsmeans(mod1, ~ Timepoint*Treatment*Colormorph)
 CLD = cld(marginal,
           alpha=0.05,
           Letters=letters,
