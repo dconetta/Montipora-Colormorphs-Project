@@ -22,7 +22,11 @@ library("multcompView")
 
 # Set Working Directory:
 setwd("C:/Users/dcone/OneDrive/Documents/Northeastern/Hawaii/Nursery Coloration Experiment/Protein Assay Data/2019 Data")#set working directory
-Data <- read.csv("Protein_Data.csv", header=T, sep=",", na.string="NA") 
+Data <- read.csv("Protein_Data.csv", header=T, sep=",", na.string="NA") #Data with all treatments
+
+setwd("~/URI/Putnam Lab/Master's Thesis/RAnalysis/Data/Protein Data") #Alternative file location
+Data <- read.csv("Protein_Data_w.out Shade.csv", header=T, sep=",", na.string="NA") #Data without Shade treatments
+
 
 Pro.Density  <- cbind(Data, Data$timepoint, Data$treatment, Data$colormorph) #make a dataframe of PC1 and experiment factors
 colnames(Pro.Density) <- c("timepoint", "colony_id", "frag_id", "treatment", "colormorph", "protein_density")
