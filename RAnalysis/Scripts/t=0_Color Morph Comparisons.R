@@ -14,6 +14,9 @@ setwd("C:/Users/dcone/OneDrive/Documents/Northeastern/Hawaii/Nursery Coloration 
 
 #COLORMETRIC COMPARISONS
 Data <- read.csv("Colormetric_Data_2019.csv", header=T, sep=",", na.string="NA") #read in data file
+Data <- read.csv("Colormetric_Data_2019_w.out Shade.csv", header=T, sep=",", na.string="NA") #read in data file ; data without Shade treatments
+
+
 Data$Red.Norm.Coral <- Data$Red.Coral/Data$Red.Standard #normalize to color standard
 Data$Green.Norm.Coral <- Data$Green.Coral/Data$Green.Standard #normalize to color standard
 Data$Blue.Norm.Coral <- Data$Blue.Coral/Data$Blue.Standard #normalize to color standard
@@ -24,7 +27,7 @@ boxplot(Red.Norm.Coral~Colormorph, data = t0, main = "Color Morph Red Channel Co
 boxplot(Green.Norm.Coral~Colormorph, data = t0, main = "Color Morph Green Channel Comparisons", xlab = "Color Morph", ylab = "Normalized Red values", col = c("orange", "brown"))
 boxplot(Blue.Norm.Coral~Colormorph, data = t0, main = "Color Morph Blue Channel Comparisons", xlab = "Color Morph", ylab = "Normalized Red values", col = c("orange", "brown"))
 
-> t.test(Red.Norm.Coral~Colormorph, data = t0)
+> t.test(Red.Norm.Coral~Colormorph, data = t0) #With all Treatments - significantly different
 
 	Welch Two Sample t-test
 
@@ -37,11 +40,24 @@ sample estimates:
 mean in group Orange    mean in group Red 
            0.5878015            0.5344439 
 
+> t.test(Red.Norm.Coral~Colormorph, data = t0) #Without Shade Treatment - Not significant but close
+
+	Welch Two Sample t-test
+
+data:  Red.Norm.Coral by Colormorph
+t = 1.9442, df = 25.429, p-value = 0.06301
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.002757941  0.097212768
+sample estimates:
+mean in group Orange    mean in group Red 
+           0.5681456            0.5209182 
+
 > t.test(Green.Norm.Coral~Colormorph, data = t0)
 
 	Welch Two Sample t-test
 
-data:  Green.Norm.Coral by Colormorph
+data:  Green.Norm.Coral by Colormorph #With all Treatments - not significantly different
 t = 1.5954, df = 39.842, p-value = 0.1185
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
@@ -50,7 +66,21 @@ sample estimates:
 mean in group Orange    mean in group Red 
            0.3834943            0.3433442 
 
-> t.test(Blue.Norm.Coral~Colormorph, data = t0)
+> t.test(Green.Norm.Coral~Colormorph, data = t0) #Without Shade Treatments - not significantly different
+
+	Welch Two Sample t-test
+
+data:  Green.Norm.Coral by Colormorph
+t = 1.1776, df = 30.396, p-value = 0.2481
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.02138700  0.07971425
+sample estimates:
+mean in group Orange    mean in group Red 
+           0.3610575            0.3318938 
+
+
+> t.test(Blue.Norm.Coral~Colormorph, data = t0) #With all Treatments - not significantly different
 
 	Welch Two Sample t-test
 
@@ -62,10 +92,25 @@ alternative hypothesis: true difference in means is not equal to 0
 sample estimates:
 mean in group Orange    mean in group Red 
            0.2177272            0.2995187 
+
+> t.test(Blue.Norm.Coral~Colormorph, data = t0) #Without Shade Treatments - significantly different
+
+	Welch Two Sample t-test
+
+data:  Blue.Norm.Coral by Colormorph
+t = -2.7071, df = 37, p-value = 0.01021
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.18058375 -0.02597923
+sample estimates:
+mean in group Orange    mean in group Red 
+           0.1768963            0.2801778
 ___________________________________________________________________________________________________________________________
 #ZOOX DENSITY COMPARISON
 setwd("C:/Users/dcone/OneDrive/Documents/Northeastern/Hawaii/Nursery Coloration Experiment/Zoox Data") #set working
 Data1 <- read.csv("t=0_data.csv", header=T, sep=",", na.string="NA") #read in data file
+
+Data1 <- read.csv("t=0_data_w.out Shade.csv", header=T, sep=",", na.string="NA") #Data w/out Shade Treatments
 
 
 boxplot(sym_density~colormorph, data = Data1, main = "Color Morph Zoox Density Comparisons at T=0", xlab = "Color Morph", ylab = "Zoox Density (cells/cm2)", ylim=c(0, 1.5e+07), col = c("orange", "brown"))
@@ -84,6 +129,19 @@ mean in group orange    mean in group red
 
 #Took out major outliers which were B1_144, B1_23, B2_170, O9_95, O13_202 and O13_196 (they were way above the rest and still have n=46)
 
+> t.test(sym_density~colormorph, data = Data1) #not significantly different between colormorphs
+
+	Welch Two Sample t-test
+
+data:  sym_density by colormorph
+t = 1.498, df = 32.959, p-value = 0.1436
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -536739.4 3533742.5
+sample estimates:
+mean in group orange    mean in group red 
+             6338688              4840186 
+#Did not remove any outliers - just a very high variance here
 _______________________________________________________________________________________________________________________________
 #PROTEIN DENSITY COMPARISON
 setwd("C:/Users/dcone/OneDrive/Documents/Northeastern/Hawaii/Nursery Coloration Experiment/Protein Assay Data/2019 Data") #set working
@@ -104,6 +162,24 @@ alternative hypothesis: true difference in means is not equal to 0
 sample estimates:
 mean in group orange    mean in group red 
             3947.324             3800.423 
+
+#Without Shade Treatments
+setwd("C:/Users/dcone/OneDrive/Documents/Northeastern/Hawaii/Nursery Coloration Experiment/Protein Assay Data/2019 Data") #set working
+Data2 <- read.csv("Protein_Data_w.out Shade.csv", header=T, sep=",", na.string="NA") #read in data file ; #Without Shade Treatment Data
+t_0=subset(Data2, timepoint == "06/09/17" & protein_density < 11000) #Excluding 5 major outliers (B1_144 and O13_196)
+> t.test(protein_density~colormorph, data = t_0) #not significantly different
+
+	Welch Two Sample t-test
+
+data:  protein_density by colormorph
+t = 1.5167, df = 107.49, p-value = 0.1323
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -197.0886 1481.1688
+sample estimates:
+mean in group Orange    mean in group Red 
+            4349.561             3707.521 
+
 
 __________________________________________________________________________________________________________________________________
 #ALL PLOTS TOGETHER
