@@ -49,12 +49,12 @@ Deep <- subset(Cal.L.data, Treatment=="Deep")
 Shade <- subset(Cal.L.data, Treatment=="Shade")
 
 #Run linear models of loggers against standard and extract model coeffecients to be applied to raw data
-Control$umolm2s1 <- (0.1219*Control$Raw.Value)/(60*60) 
-Shallow$umolm2s1 <- (0.1264*Shallow$Raw.Value)/(60*60)
+Control$umolm2s1 <- (0.1219*(Control$Raw.Value *1000))/(60) 
+Shallow$umolm2s1 <- (0.1264*(Shallow$Raw.Value *1000))/(60)
 Shallow <- Shallow[1:nrow(Control),]
-Deep$umolm2s1 <- (0.1149*Deep$Raw.Value)/(60*60)
+Deep$umolm2s1 <- (0.1149*(Deep$Raw.Value *1000))/(60)
 Deep <- Deep[1:nrow(Control),]
-Shade$umolm2s1 <- (0.1319*Shade$Raw.Value)/(60*60)
+Shade$umolm2s1 <- (0.1319*(Shade$Raw.Value *1000))/(60)
 Shade <- Shade[1:nrow(Control),]
 
 Light <- cbind(Control, Shallow$umolm2s1, Deep$umolm2s1, Shade$umolm2s1)
